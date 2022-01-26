@@ -94,6 +94,7 @@ Save and submit the completed file for your homework submission.
 
 4. Provide a report from the chrootkit output on what can be done to harden the system.
     - Screenshot of end of sample output:  ![image](https://user-images.githubusercontent.com/95587197/151196385-3affbdf5-01ff-4062-8438-87dddb6b1489.png)
+![image](https://user-images.githubusercontent.com/95587197/151196956-2d15c5a7-d233-4a87-bd19-cd733713347b.png)
 
 
 ---
