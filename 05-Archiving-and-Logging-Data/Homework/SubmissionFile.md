@@ -8,47 +8,65 @@ Save and submit the completed file for your homework submission.
 
 ### Step 1: Create, Extract, Compress, and Manage tar Backup Archives
 
-1. Command to **extract** the `TarDocs.tar` archive to the current directory:
+1. Command to **extract** the `TarDocs.tar` archive to the current directory: 
+   a.mkdir Projects   b. downloaded TarDocs.tar in Ubuntu   c. tar xvvf TarDocs.tar
 
-2. Command to **create** the `Javaless_Doc.tar` archive from the `TarDocs/` directory, while excluding the `TarDocs/Documents/Java` directory:
+2. Command to **create** the `Javaless_Doc.tar` archive from the `TarDocs/` directory, while excluding the TarDocs/Documents/Java` directory: 
+   tar cvvf Javaless_Docs.tar --exclude="TarDocs/Documents/Java" TarDocs/
+
 
 3. Command to ensure `Java/` is not in the new `Javaless_Docs.tar` archive:
+   tar -tvf Javaless_Docs.tar | grep Java
 
 **Bonus** 
 - Command to create an incremental archive called `logs_backup_tar.gz` with only changed files to `snapshot.file` for the `/var/log` directory:
+      sudo tar --listed-incremental=snapshot.file -cvzf logs_backup.tar.gz /var/log
+	  
 
 #### Critical Analysis Question
 
-- Why wouldn't you use the options `-x` and `-c` at the same time with `tar`?
-
+- Why wouldn't you use the options `-x` and `-c` at the same time with `tar`? -c creates the files and -x extracts the files. 
+- -c creates the files and -x extracts the files. Both cannot work at the same time.
 ---
 
 ### Step 2: Create, Manage, and Automate Cron Jobs
 
 1. Cron job for backing up the `/var/log/auth.log` file:
-
----
+  0 6 * * 3 sudo tar cvvf auth_backup.tgz var/log/auth.log
+  tar tvf auth_backup.tgz (check file contents)
 
 ### Step 3: Write Basic Bash Scripts
 
 1. Brace expansion command to create the four subdirectories:
+   sudo mkdir -p backups/{freeman,diskuse,openlist,freedisk}
 
 2. Paste your `system.sh` script edits below:
+  a. nano system.sh
+  b. #!/bin/bash
+  
+  free -h > ~/backups/freemem/free_mem.txt
 
-    ```bash
-    #!/bin/bash
-    [Your solution script contents here]
-    ```
+  du -h > ~/backups/diskuse/disk_use.txt
 
-3. Command to make the `system.sh` script executable:
+  lsof > ~/backups/openlist/open_list.txt
+
+  df -h > ~/backups/freedisk/free_disk.txt
+
+
+3. Command to make the `system.sh` script executable: chmod +x system.sh
 
 **Optional**
-- Commands to test the script and confirm its execution:
+-   Commands to test the script and confirm its execution: 
+ cat ~/backups/freemem/free_mem.txt
+ cat ~/backups/diskuse/disk_usage.txt
+ cat ~/backups/backups/openlist/open_list.txt
+ cat ~/backups/freedisk/free_disk.txt
+
 
 **Bonus**
 - Command to copy `system` to system-wide cron directory:
+  suso cp system.sh /etc/cron.weekly
 
----
 
 ### Step 4. Manage Log File Sizes
  
@@ -59,42 +77,48 @@ Save and submit the completed file for your homework submission.
     - Add your config file edits below:
 
     ```bash
-    [Your logrotate scheme edits here]
-    ```
+    weekly
+	su root syslog
+	4
+	create
+	#compress
+    include /var/log/auth.log
+	
 ---
 
 ### Bonus: Check for Policy and File Violations
 
-1. Command to verify `auditd` is active:
+1. Command to verify `auditd` is active: sytemctl is
 
-2. Command to set number of retained logs and maximum log file size:
+2. Command to set number of retained logs and maximum log file size: sudo nano /etc/audit/auditd.conf
 
-    - Add the edits made to the configuration file below:
-
-    ```bash
-    [Your solution edits here]
+     num-logs =6
+     max_log_file = 35-
     ```
 
-3. Command using `auditd` to set rules for `/etc/shadow`, `/etc/passwd` and `/var/log/auth.log`:
+3. Command using `auditd` to set rules for `/etc/shadow`, `/etc/passwd` and `/var/log/auth.log`: 
+   sudo nano/etc/audit/rules.d/audit.rules
 
 
     - Add the edits made to the `rules` file below:
 
-    ```bash
-    [Your solution edits here]
-    ```
+ 
 
-4. Command to restart `auditd`:
+4. Command to restart `auditd`: sudo sytemctl restart auditd
 
-5. Command to list all `auditd` rules:
+5. Command to list all `auditd` rules: sudo auditctl -l
 
-6. Command to produce an audit report:
+6. Command to produce an audit report:sudo aureport -au
 
-7. Create a user with `sudo useradd attacker` and produce an audit report that lists account modifications:
-
-8. Command to use `auditd` to watch `/var/log/cron`:
+7. Create a user with `sudo useradd attacker` and produce an audit report that lists account modifications: 
+  sudo useradd attacker
+  sudo aureport -m
+ 
+8. Command to use `auditd` to watch `/var/log/cron`: sudo auditctl -w /var/log/cron
+   sudo auditctl -w /varlog/cron
 
 9. Command to verify `auditd` rules:
+   sudo auditcl -l
 
 ---
 
