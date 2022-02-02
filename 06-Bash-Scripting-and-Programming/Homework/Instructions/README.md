@@ -190,7 +190,7 @@ These steps are optional. Complete them if you want to remove the homework-speci
 
     - `vagrant` will attempt to gracefully shut down the machines.
 
-3. After that has completed, run the command `vagrant destroy` and confirm removal of both virtual machines by typing `y`/`yes` and pressing Enter.
+3. After that has completed, run the command `vagrant destroy` and confirm removal of both virtual machines by typing `y`/`yes` and pressing Enter. y
 
 ---
 © 2020 Trilogy Education Services, a 2U, Inc. brand. All Rights Reserved.
